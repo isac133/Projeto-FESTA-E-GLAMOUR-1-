@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+    <link href="assets/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/lib/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/lib/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="assets/lib/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/index.css">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+</head>
+
+<body>
+
+
+    <section class="maneger-page-section">
+        <div class="container page-maneger " style="background-color:#FFFFFF ;">
+
+            <div class="add-user-button">
+                <h1 class="section-title cliente-title-maneger">Gerenciamento de Agendamento</h1>
+                <br />
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group mb-4">
+                            <input id="filtro" type="text" class="form-control" placeholder="Pesquisar Produtos..."
+                                aria-label="Filtrar" aria-describedby="basic-addon2">
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <!-- Alteração para "text-md-end" para alinhar à direita apenas em telas médias e maiores -->
+                        <button class="btn btn-success btn-lg" onclick="" data-bs-toggle="modal"
+                            data-bs-target="#InserirAgendamento">
+                            <i class="fa fa-plus"></i> Adicionar Agendamento
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container table-responsive">
+                <table id="TbClientes" class="table">
+                    <colgroup>
+                        <col class="tc-nome">
+                    </colgroup>
+                    <thead>
+                        <tr>
+
+                            <th>#</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>Agendados para a Data</th>
+                            <th>Horario</th>
+                            <th>Técnica</th>
+                            <th>valor</th>
+                            <th>corfirmação</th>
+                            <th style="color:blue; text-align: center;">Editar</th>
+                            <th style="color:red; text-align: center;">Excluir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>id</td>
+                            <td>Nome</td>
+                            <td>Email</td>
+                            <td>Telefone</td>
+                            <td>Agendar Data</td>
+                            <td>Horarios</td>
+                            <td>Técnica</td>
+                            <td>Valor</td>
+                            <td>Confirmação</td>
+
+                            <td class="text-center">
+                                <button class="btn btn-default"
+                                    onclick="definirEdt('@item.Id', '@item.Nome', '@item.Email','@item.Senha', '@item.TipoUsuario','@item.Telefone')"
+                                    data-bs-toggle="modal" data-bs-target="#EditarAgendamento">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-default"
+                                    onclick="definirExc('@item.Id', '@item.Nome', '@item.Email', '@item.Telefone')"
+                                    data-bs-toggle="modal" data-bs-target="#ExcluirAgendamento">
+                                    <i class="fa fa-trash text-danger"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <section class="container text-center">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <div>
+                    <button type="button" id="send-button2" class="nav-link active btn btn-danger btn-block" style="flex: 1; margin-left: 5px;" onclick="window.location.href = 'index.html';">
+                        Voltar
+                    </button>
+                </div>
+            </div>
+        </section>
+        <div class="modal fade" id="InserirAgendamento" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="exampleModalLabel">Adicionar Agendamento</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3 d-flex align-items-center">
+                                <input type="hidden" id="TxtIdM" class="form-check-input" value="10:00" style="margin-right: 10px;" disabled>
+                            </div>
+    
+                           
+                            
+                            <div class="mb-3 d-flex align-items-center">
+                                <input id="data_agdtM" type="date" class="form-control" style="width: 300px;" placeholder="Escolha a data do agendamento" oninput="consultarAgendamentoM();consultarAgendamentoManutencaoM()">
+                            </div>
+                            <div class="mb-3">
+                                <label for="escolha">Escolha o serviço:</label>
+                                <select id="escolha" name="escolha">
+                                    <option value="opcao1">Buffet Completo para Eventos</option>
+                                    <option value="opcao2">Serviço de Coquetel</option>
+                                    <option value="opcao3">Serviço de Garçom e Bar</option>
+                                    <option value="opcao4">Catering Empresarial</option>
+                                    <option value="opcao5">Menu Personalizado</option>
+                                    <option value="opcao6">Estações Temáticas e Interativas</option>
+                                </select>
+                            </div>
+                            <label for="escolha">Escolha o horário:</label>
+                            <br>
+                            <div class="mb-3 d-flex align-items-center">
+                                <input type="checkbox" id="chk08M" class="form-check-input" value="08:00" style="margin-right: 10px;" data-group="horario" enabled>
+                                <label class="form-check-label" for="chk08">Atendimento das 8:00</label>
+                                <span id="Span08M" style="color:red;"></span>
+                            </div>
+    
+                            <div class="mb-3 d-flex align-items-center">
+                                <input type="checkbox" id="chk10M" class="form-check-input" value="10:00" style="margin-right: 10px;" data-group="horario" enabled>
+                                <label class="form-check-label" for="chk10">Atendimento das 10:00</label>
+                                <span id="Span10M" style="color:red;"></span>
+                            </div>
+    
+                            <div class="mb-3 d-flex align-items-center">
+                                <input type="checkbox" id="chk13M" class="form-check-input" value="13:00" style="margin-right: 10px;" data-group="horario" enabled>
+                                <label class="form-check-label" for="chk13">Atendimento das 13:00</label>
+                                <span id="Span13M" style="color:red;"></span>
+                            </div>
+    
+                            <div class="mb-3 d-flex align-items-center">
+                                <input type="checkbox" id="chk15M" class="form-check-input" value="15:00" style="margin-right: 10px;" data-group="horario" enabled>
+                                <label class="form-check-label" for="chk15">Atendimento das 15:00</label>
+                                <span id="Span15M" style="color:red;"></span>
+                            </div>
+    
+                            <div class="mb-3 d-flex align-items-center">
+                                <input type="checkbox" id="chk17M" class="form-check-input" value="17:00" style="margin-right: 10px;" data-group="horario" enabled>
+                                <label class="form-check-label" for="chk17">Atendimento das 17:00</label>
+                                <span id="Span17M" style="color:red;"></span>
+                            </div>
+    
+                            <div class="mb-3 d-flex align-items-center">
+                                <input type="checkbox" id="chk19M" class="form-check-input" value="19:00" style="margin-right: 10px;" data-group="horario" enabled>
+                                <label class="form-check-label" for="chk19">Atendimento das 19:00</label>
+                                <span id="Span19M" style="color:red;"></span>
+                            </div>
+    
+                            <input type="hidden" id="IdEdt" value="">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" onclick="InserirAgendamentoManutencao()">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="EditarAgendamento" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">            
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="exampleModalLabel">Editar Agendamento</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="nome">Nome</label>
+                                <input type="text" id="EdtNome" class="form-control" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email">Email</label>
+                                <input type="email" id="EdtEmail" class="form-control" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefone">Telefone</label>
+                                <input type="text" id="EdtTel" class="form-control" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefone">Data do agendamento</label>
+                                <input type="text" id="EdtData" class="form-control" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefone">Horario</label>
+                                <input type="text" id="EdtHorario" class="form-control" readonly>
+                            </div><br>
+                            <div class="mb-3">
+                                <label for="escolha">Escolha o serviço:</label>
+                                <select id="escolha" name="escolha">
+                                    <option value="opcao1">Buffet Completo para Eventos</option>
+                                    <option value="opcao2">Serviço de Coquetel</option>
+                                    <option value="opcao3">Serviço de Garçom e Bar</option>
+                                    <option value="opcao4">Catering Empresarial</option>
+                                    <option value="opcao5">Menu Personalizado</option>
+                                    <option value="opcao6">Estações Temáticas e Interativas</option>
+                                </select>
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefone">Valor</label>
+                                <input type="text" id="EdtVal" class="form-control" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefone">Confirmação</label>
+                                <input type="text" id="EdtConf" class="form-control" readonly>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="mb-3 d-flex align-items-center">
+                                    <br />
+                                    <input type="checkbox" id="chkR" value="08:00" style="margin-right: 10px;">
+                                    <label for="chkR">Reagendamento</label>
+                                </div>
+                            </div>
+                            <div id="divCampos"
+                                style="border: 2px solid #000; padding: 10px; margin: 10px; display: none;">
+                                <div class="mb-3">
+                                    <input id="data_a" type="text" class="form-control" style="width: 300px;"
+                                        placeholder="Escolha a data do agendamento"
+                                        oninput="consultarAgendamentoEdt();consultarAgendamentoManutencaoEdt()">
+                                </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    @Html.DropDownList("DropHorario", ViewBag.lstHorarios, "Escolha o Horario", new {
+                                    @class = "chosen-select form-control", @style = "width:420px;" })
+                                </div>
+                            </div>
+                            <input type="hidden" id="IdEdt" class="form-control" readonly>
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" onclick="AlterarAgendamento()"
+                                class="btn btn-primary">Atualizar</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="ExcluirAgendamento" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="exampleModalLabel">Excluir Agendamento</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="nome">Nome</label>
+                                <input type="text" id="ExcNome" class="form-control" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email">Email</label>
+                                <input type="email" id="ExcEmail" class="form-control" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefone">Telefone</label>
+                                <input type="text" id="ExcTel" class="form-control" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefone">Data do agendamento</label>
+                                <input type="text" id="ExcData" class="form-control" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefone">Horario</label>
+                                <input type="text" id="ExcHorario" class="form-control" readonly>
+                            </div><br>
+                            <div class="mb-3">
+                                <label for="escolha">Escolha o serviço:</label>
+                                <select id="escolha" name="escolha">
+                                    <option value="opcao1">Buffet Completo para Eventos</option>
+                                    <option value="opcao2">Serviço de Coquetel</option>
+                                    <option value="opcao3">Serviço de Garçom e Bar</option>
+                                    <option value="opcao4">Catering Empresarial</option>
+                                    <option value="opcao5">Menu Personalizado</option>
+                                    <option value="opcao6">Estações Temáticas e Interativas</option>
+                                </select>
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefone">Valor</label>
+                                <input type="text" id="ExcVal" class="form-control" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefone">Confirmação</label>
+                                <input type="text" id="ExcConf" class="form-control" readonly>
+                            </div>
+                            <input type="hidden" id="IdExc" class="form-control" placeholder="Digite seu nome..." readonly>
+    
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" onclick="ExcluirUsuario()" class="btn btn-primary">Excluir</button>
+                        </div>
+    
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+
+            <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+            <script src="assets/lib/swiper/swiper-bundle.min.js"></script>
+
+            <script src="assets/lib/jquery/dist/jquery.min.js"></script>
+
+            <script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+
+               
+
+
+            </script>
+
+    </section>
+
+</body>
+
+</html>
